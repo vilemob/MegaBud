@@ -22,23 +22,13 @@ public class Category {
     public double budget;
 
     @ColumnInfo(name = "currency")
-    private String currency;
+    private Currency currency;
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    /**
-     * This setter should be used by Room only, which is why it's package private and should not
-     * made visible to other modules. Use the {@link #setCurrency(Currency)} method instead.
-     *
-     * @param currency Code for currency as a string.
-     */
-    void setCurrency(String currency){
-        this.currency = currency;
-    }
-
     public void setCurrency(Currency currency) {
-        this.currency = currency.getCode();
+        this.currency = currency;
     }
 }
