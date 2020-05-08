@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ede11efa106f7556ba2e9704f9174165",
+    "identityHash": "d25185b1eaaf7c25db21e6e1c7f54057",
     "entities": [
       {
         "tableName": "Category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `color` INTEGER NOT NULL, `budget` REAL NOT NULL, `currency` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT, `color` INTEGER NOT NULL, `budget` REAL NOT NULL, `currency` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -35,8 +35,8 @@
           {
             "fieldPath": "currency",
             "columnName": "currency",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -52,7 +52,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ede11efa106f7556ba2e9704f9174165')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd25185b1eaaf7c25db21e6e1c7f54057')"
     ]
   }
 }

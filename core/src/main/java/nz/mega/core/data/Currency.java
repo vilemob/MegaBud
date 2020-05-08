@@ -1,18 +1,16 @@
 package nz.mega.core.data;
 
-import androidx.annotation.IntDef;
+public enum Currency {
+    NZD("NZD"),
+    USD("USD");
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+    private String code;
 
-import static nz.mega.core.data.Currency.NZD;
-import static nz.mega.core.data.Currency.UNKNOWN;
-import static nz.mega.core.data.Currency.USD;
+    Currency(String code) {
+        this.code = code;
+    }
 
-@Retention(RetentionPolicy.SOURCE)
-@IntDef({UNKNOWN, NZD, USD})
-public @interface Currency {
-    int UNKNOWN = 0;
-    int NZD = 1;
-    int USD = 2;
+    public String getCode() {
+        return code;
+    }
 }

@@ -42,7 +42,7 @@ public class CategoryDaoTest {
         expected.name = "Test";
         expected.budget = 100.1;
         expected.color = 0xFFFFFFFF;
-        expected.currency = Currency.NZD;
+        expected.setCurrency(Currency.NZD);
 
         // Act
         categoryDao.insertAll(expected);
@@ -53,6 +53,6 @@ public class CategoryDaoTest {
         assertEquals(expected.name, obtained.name);
         assertEquals(expected.budget, obtained.budget, 0);
         assertEquals(expected.color, obtained.color);
-        assertEquals(expected.currency, obtained.currency);
+        assertEquals(expected.getCurrency(), obtained.getCurrency());
     }
 }
