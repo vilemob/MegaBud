@@ -1,0 +1,3 @@
+rootProject.name='MegaBud'
+include ':app'
+include ':core'
