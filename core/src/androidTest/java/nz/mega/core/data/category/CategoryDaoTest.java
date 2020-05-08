@@ -39,9 +39,9 @@ public class CategoryDaoTest {
     public void writeCategoryAndReadInList() {
         // Arrange
         Category expected = new Category();
-        expected.name = "Test";
-        expected.budget = 100.1;
-        expected.color = 0xFFFFFFFF;
+        expected.setName("Test");
+        expected.setBudget(100.1);
+        expected.setColor(0xFFFFFFFF);
         expected.setCurrency(Currency.NZD);
 
         // Act
@@ -50,9 +50,9 @@ public class CategoryDaoTest {
         Category obtained = categories.get(0);
 
         // Assert
-        assertEquals(expected.name, obtained.name);
-        assertEquals(expected.budget, obtained.budget, 0);
-        assertEquals(expected.color, obtained.color);
+        assertEquals(expected.getName(), obtained.getName());
+        assertEquals(expected.getBudget(), obtained.getBudget(), 0);
+        assertEquals(expected.getColor(), obtained.getColor());
         assertEquals(expected.getCurrency(), obtained.getCurrency());
     }
 }
