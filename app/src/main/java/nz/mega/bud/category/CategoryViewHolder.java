@@ -19,5 +19,6 @@ class CategoryViewHolder extends RecyclerView.ViewHolder {
 
     void bind(Category category) {
         this.viewBinding.name.setText(category.getName());
+        this.viewBinding.name.setBackgroundColor(category.getColor());
     }
 }

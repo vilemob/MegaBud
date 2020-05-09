@@ -23,11 +23,11 @@ public class CategoryFormViewModel extends ViewModel {
         this.categoryDao = categoryDao;
     }
 
-    void save(String categoryName) {
+    void save(String categoryName, int color) {
         Category category = new Category();
         category.setName(categoryName);
         category.setBudget(0);
-        category.setColor(0x00000000);
+        category.setColor(color);
         category.setCurrency(Currency.NZD);
 
         disposables.add(categoryDao.insertAll(category)

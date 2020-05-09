@@ -16,9 +16,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/category"
+            android:inputType="textCapWords"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/colorSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/categoryEditText" />
 
         <Button
             android:id="@+id/saveButton"
@@ -26,6 +35,6 @@
             android:layout_height="wrap_content"
             android:text="@string/save"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categoryEditText" />
+            app:layout_constraintTop_toBottomOf="@id/colorSpinner" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
