@@ -11,11 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
-import nz.mega.bud.R;
+import nz.mega.bud.databinding.FragmentCategoryListBinding;
 import nz.mega.core.ViewModelFactory;
 
 public class CategoryListFragment extends Fragment {
@@ -23,17 +24,23 @@ public class CategoryListFragment extends Fragment {
     @Inject
     ViewModelFactory<CategoryListViewModel> viewModelFactory;
     private CategoryListViewModel viewModel;
+    private FragmentCategoryListBinding viewBinding;
+    private CategoryListAdapter adapter = new CategoryListAdapter();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_category_list, container, false);
+        this.viewBinding = FragmentCategoryListBinding.inflate(getLayoutInflater(), container, false);
+        return this.viewBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.fab).setOnClickListener(v -> {
+
+        this.viewBinding.recyclerView.setAdapter(adapter);
+
+        this.viewBinding.fab.setOnClickListener(v -> {
             NavDirections action = CategoryListFragmentDirections
                     .actionCategoryListFragmentToCategoryFormFragment();
             Navigation.findNavController(v).navigate(action);
@@ -46,5 +53,9 @@ public class CategoryListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.viewModel = new ViewModelProvider(this, viewModelFactory)
                 .get(CategoryListViewModel.class);
+
+        this.viewModel.getLiveCategories().observe(this, categories -> {
+            this.adapter.submitList(categories);
+        });
     }
 }

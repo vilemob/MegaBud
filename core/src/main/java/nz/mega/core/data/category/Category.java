@@ -9,7 +9,7 @@ import nz.mega.core.data.Currency;
 @Entity
 public class Category {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "name")
