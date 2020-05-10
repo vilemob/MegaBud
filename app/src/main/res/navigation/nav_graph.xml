@@ -31,7 +31,7 @@
         tools:layout="@layout/fragment_chart" />
     <fragment
         android:id="@+id/transactionListFragment"
-        android:name="nz.mega.bud.transaction.form.TransactionListFragment"
+        android:name="nz.mega.bud.transaction.list.TransactionListFragment"
         android:label="fragment_transaction_list"
         tools:layout="@layout/fragment_transaction_list" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/transactionFormFragment"
-        android:name="nz.mega.bud.transaction.list.TransactionFormFragment"
+        android:name="nz.mega.bud.transaction.form.TransactionFormFragment"
         android:label="fragment_transaction_form"
         tools:layout="@layout/fragment_transaction_form" />
 </navigation>

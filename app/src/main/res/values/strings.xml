@@ -13,6 +13,7 @@
     <string name="add_transaction">Add Transaction</string>
     <string name="value">Value</string>
     <string name="datetime">Datetime</string>
+    <string name="budget">Budget</string>
 
     <string-array name="palette_names">
         <item>Bright pink</item>
@@ -27,5 +28,10 @@
         <item>Blue</item>
         <item>Violet</item>
         <item>Magenta</item>
+    </string-array>
+
+    <string-array name="currencies">
+        <item>NZD</item>
+        <item>USD</item>
     </string-array>
 </resources>

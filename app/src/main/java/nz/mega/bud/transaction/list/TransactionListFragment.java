@@ -1,4 +1,4 @@
-package nz.mega.bud.transaction.form;
+package nz.mega.bud.transaction.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,6 +28,7 @@ public class TransactionListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         this.viewBinding.fab.setOnClickListener(v -> {
             NavDirections action = TransactionListFragmentDirections
                     .actionTransactionListFragmentToTransactionFormFragment();

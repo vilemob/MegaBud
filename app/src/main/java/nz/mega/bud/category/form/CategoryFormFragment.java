@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import dagger.android.support.AndroidSupportInjection;
 import nz.mega.bud.R;
 import nz.mega.bud.databinding.FragmentCategoryFormBinding;
 import nz.mega.core.ViewModelFactory;
+import nz.mega.core.data.Currency;
 
 public class CategoryFormFragment extends Fragment {
 
@@ -46,7 +48,7 @@ public class CategoryFormFragment extends Fragment {
 
         final int[] colors = getResources().getIntArray(R.array.palette);
 
-        //region Configure Spinner.
+        //region Configure color Spinner.
         final String[] colorNames = getResources().getStringArray(R.array.palette_names);
 
         List<Map<String, ?>> data = new ArrayList<>();
@@ -56,13 +58,13 @@ public class CategoryFormFragment extends Fragment {
             data.add(rowData);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(requireContext(), data,
+        SimpleAdapter colorAdapter = new SimpleAdapter(requireContext(), data,
                 android.R.layout.simple_spinner_item, new String[]{KEY_COLOR_INDEX},
                 new int[]{android.R.id.text1});
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        adapter.setViewBinder((view1, data1, textRepresentation) -> {
+        colorAdapter.setViewBinder((view1, data1, textRepresentation) -> {
             TextView text1 = (TextView) view1;
             final Integer index = (Integer) data1;
             text1.setText(colorNames[index]);
@@ -70,12 +72,36 @@ public class CategoryFormFragment extends Fragment {
             return true;
         });
 
-        this.viewBinding.colorSpinner.setAdapter(adapter);
+        this.viewBinding.colorSpinner.setAdapter(colorAdapter);
+        //endregion
+
+        final String[] currencies = getResources().getStringArray(R.array.currencies);
+
+        //region Configure currency Spinner.
+        ArrayAdapter<CharSequence> currencyAdapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, currencies);
+
+        currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        this.viewBinding.currencySpinner.setAdapter(currencyAdapter);
         //endregion
 
         this.viewBinding.saveButton.setOnClickListener(v -> {
-            viewModel.save(this.viewBinding.categoryEditText.getText().toString(),
-                    colors[this.viewBinding.colorSpinner.getSelectedItemPosition()]);
+            //region Parse and validate inputs
+            // TODO Validate inputs and display errors or proceed.
+            String categoryName = this.viewBinding.categoryEditText.getText().toString();
+
+            final int color = colors[this.viewBinding.colorSpinner.getSelectedItemPosition()];
+
+            final String budgetInput = this.viewBinding.budgetEditText.getText().toString();
+            final double budget = budgetInput.isEmpty() ? 0.0 : Double.parseDouble(budgetInput);
+
+            String currencyInput =
+                    currencies[this.viewBinding.currencySpinner.getSelectedItemPosition()];
+            Currency currency = Currency.valueOf(currencyInput);
+            //endregion
+
+            viewModel.save(categoryName, color, budget, currency);
         });
     }
 
@@ -94,19 +120,30 @@ public class CategoryFormFragment extends Fragment {
         this.viewModel.categoryLive.observe(this, category -> {
             if (category != null) {
                 this.viewBinding.categoryEditText.setText(category.getName());
-
-                //region Populate Spinner.
-                final int[] colors = getResources().getIntArray(R.array.palette);
-                int position = 0;
-                for (int i = 0; i < colors.length; i++) {
-                    if (colors[i] == category.getColor()) {
-                        position = i;
-                    }
-                }
-
-                this.viewBinding.colorSpinner.setSelection(position);
-                //endregion
+                setColorSpinnerSelection(category.getColor());
+                this.viewBinding.budgetEditText.setText(String.valueOf(category.getBudget()));
+                setCurrencySpinnerSelection(category.getCurrency());
             }
         });
+    }
+
+    private void setCurrencySpinnerSelection(Currency currency) {
+        final String[] currencies = getResources().getStringArray(R.array.currencies);
+        for (int i = 0; i < currencies.length; i++) {
+            if (Currency.valueOf(currencies[i]).equals(currency)) {
+                this.viewBinding.currencySpinner.setSelection(i);
+                break;
+            }
+        }
+    }
+
+    private void setColorSpinnerSelection(int color) {
+        final int[] colors = getResources().getIntArray(R.array.palette);
+        for (int i = 0; i < colors.length; i++) {
+            if (colors[i] == color) {
+                this.viewBinding.colorSpinner.setSelection(i);
+                break;
+            }
+        }
     }
 }

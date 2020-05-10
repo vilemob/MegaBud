@@ -25,12 +25,14 @@ public class CategoryFormViewModel extends ViewModel {
         this.categoryDao = categoryDao;
     }
 
-    void save(String categoryName, int color) {
+    void save(String categoryName, int color, double budget, Currency currency) {
 
         Category category = categoryLive.getValue();
         if (category != null) {
             category.setName(categoryName);
             category.setColor(color);
+            category.setBudget(budget);
+            category.setCurrency(currency);
 
             disposables.add(categoryDao.update(category)
                     .subscribeOn(Schedulers.io())
@@ -40,10 +42,8 @@ public class CategoryFormViewModel extends ViewModel {
             category = new Category();
             category.setName(categoryName);
             category.setColor(color);
-
-            // TODO Set this values from from.
-            category.setBudget(0);
-            category.setCurrency(Currency.NZD);
+            category.setBudget(budget);
+            category.setCurrency(currency);
 
             disposables.add(categoryDao.insertAll(category)
                     .subscribeOn(Schedulers.io())
