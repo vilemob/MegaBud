@@ -1,10 +1,10 @@
 package nz.mega.bud.category;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -16,7 +16,9 @@ public class CategoryFormViewModel extends ViewModel {
 
     private CategoryDao categoryDao;
 
-    CompositeDisposable disposables = new CompositeDisposable();
+    LiveData<Category> categoryLive;
+
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
     CategoryFormViewModel(CategoryDao categoryDao) {
@@ -24,21 +26,39 @@ public class CategoryFormViewModel extends ViewModel {
     }
 
     void save(String categoryName, int color) {
-        Category category = new Category();
-        category.setName(categoryName);
-        category.setBudget(0);
-        category.setColor(color);
-        category.setCurrency(Currency.NZD);
 
-        disposables.add(categoryDao.insertAll(category)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe());
+        Category category = categoryLive.getValue();
+        if (category != null) {
+            category.setName(categoryName);
+            category.setColor(color);
+
+            disposables.add(categoryDao.update(category)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe());
+        } else {
+            category = new Category();
+            category.setName(categoryName);
+            category.setColor(color);
+
+            // TODO Set this values from from.
+            category.setBudget(0);
+            category.setCurrency(Currency.NZD);
+
+            disposables.add(categoryDao.insertAll(category)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe());
+        }
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
         disposables.dispose();
+    }
+
+    void loadCategoryById(int categoryId) {
+        this.categoryLive = categoryDao.getCategoryByIdLive(categoryId);
     }
 }

@@ -35,7 +35,8 @@ public class CategoryFormFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.viewBinding = FragmentCategoryFormBinding.inflate(getLayoutInflater(), container, false);
+        this.viewBinding = FragmentCategoryFormBinding
+                .inflate(getLayoutInflater(), container, false);
         return this.viewBinding.getRoot();
     }
 
@@ -43,9 +44,10 @@ public class CategoryFormFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //region Config Spinner.
-        final String[] colorNames = getResources().getStringArray(R.array.palette_names);
         final int[] colors = getResources().getIntArray(R.array.palette);
+
+        //region Configure Spinner.
+        final String[] colorNames = getResources().getStringArray(R.array.palette_names);
 
         List<Map<String, ?>> data = new ArrayList<>();
         for (int i = 0; i < colors.length; i++) {
@@ -83,5 +85,28 @@ public class CategoryFormFragment extends Fragment {
         super.onCreate(savedInstanceState);
         this.viewModel = new ViewModelProvider(this, viewModelFactory)
                 .get(CategoryFormViewModel.class);
+
+        final int categoryId = CategoryFormFragmentArgs.fromBundle(requireArguments())
+                .getCategoryId();
+
+        viewModel.loadCategoryById(categoryId);
+
+        this.viewModel.categoryLive.observe(this, category -> {
+            if (category != null) {
+                this.viewBinding.categoryEditText.setText(category.getName());
+
+                //region Populate Spinner.
+                final int[] colors = getResources().getIntArray(R.array.palette);
+                int position = 0;
+                for (int i = 0; i < colors.length; i++) {
+                    if (colors[i] == category.getColor()) {
+                        position = i;
+                    }
+                }
+
+                this.viewBinding.colorSpinner.setSelection(position);
+                //endregion
+            }
+        });
     }
 }

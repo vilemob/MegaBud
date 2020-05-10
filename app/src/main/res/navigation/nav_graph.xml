@@ -18,5 +18,10 @@
         android:id="@+id/categoryFormFragment"
         android:name="nz.mega.bud.category.CategoryFormFragment"
         android:label="fragment_category_form"
-        tools:layout="@layout/fragment_category_form" />
+        tools:layout="@layout/fragment_category_form" >
+        <argument
+            android:name="categoryId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 </navigation>
