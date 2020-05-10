@@ -1,4 +1,4 @@
-package nz.mega.bud.category;
+package nz.mega.bud.category.form;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

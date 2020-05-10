@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/categoryListFragment">
+    app:startDestination="@id/chartFragment">
 
     <fragment
         android:id="@+id/categoryListFragment"
-        android:name="nz.mega.bud.category.CategoryListFragment"
+        android:name="nz.mega.bud.category.list.CategoryListFragment"
         android:label="fragment_category_list"
         tools:layout="@layout/fragment_category_list" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoryFormFragment"
-        android:name="nz.mega.bud.category.CategoryFormFragment"
+        android:name="nz.mega.bud.category.form.CategoryFormFragment"
         android:label="fragment_category_form"
         tools:layout="@layout/fragment_category_form" >
         <argument
@@ -24,4 +24,23 @@
             app:argType="integer"
             android:defaultValue="-1" />
     </fragment>
+    <fragment
+        android:id="@+id/chartFragment"
+        android:name="nz.mega.bud.chart.ChartFragment"
+        android:label="fragment_chart"
+        tools:layout="@layout/fragment_chart" />
+    <fragment
+        android:id="@+id/transactionListFragment"
+        android:name="nz.mega.bud.transaction.form.TransactionListFragment"
+        android:label="fragment_transaction_list"
+        tools:layout="@layout/fragment_transaction_list" >
+        <action
+            android:id="@+id/action_transactionListFragment_to_transactionFormFragment"
+            app:destination="@id/transactionFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionFormFragment"
+        android:name="nz.mega.bud.transaction.list.TransactionFormFragment"
+        android:label="fragment_transaction_form"
+        tools:layout="@layout/fragment_transaction_form" />
 </navigation>

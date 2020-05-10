@@ -1,4 +1,4 @@
-package nz.mega.bud.category;
+package nz.mega.bud.category.list;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;

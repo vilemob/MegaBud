@@ -1,4 +1,4 @@
-package nz.mega.bud.category;
+package nz.mega.bud.category.form;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
