@@ -1,29 +1,22 @@
 package nz.mega.bud.transaction.list;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import nz.mega.bud.R;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+import nz.mega.bud.databinding.FragmentTransactionFormBinding;
+
 public class TransactionFormFragment extends Fragment {
 
-    public TransactionFormFragment() {
-        // Required empty public constructor
-    }
-
+    private FragmentTransactionFormBinding viewBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transaction_form, container, false);
+        this.viewBinding = FragmentTransactionFormBinding.inflate(getLayoutInflater());
+        return this.viewBinding.getRoot();
     }
 }

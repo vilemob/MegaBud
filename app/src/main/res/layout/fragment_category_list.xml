@@ -20,5 +20,4 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/add_category"
         android:src="@drawable/ic_add_black_24dp" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
