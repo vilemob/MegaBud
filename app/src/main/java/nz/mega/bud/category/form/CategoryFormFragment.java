@@ -47,8 +47,40 @@ public class CategoryFormFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         final int[] colors = getResources().getIntArray(R.array.palette);
+        configureColorSpinner(colors);
 
-        //region Configure color Spinner.
+        final String[] currencies = getResources().getStringArray(R.array.currencies);
+        configureCurrencySpinner(currencies);
+
+        this.viewBinding.saveButton.setOnClickListener(v -> {
+            //region Parse and validate inputs
+            // TODO Validate inputs and display errors or proceed.
+            String categoryName = this.viewBinding.categoryEditText.getText().toString();
+
+            final int color = colors[this.viewBinding.colorSpinner.getSelectedItemPosition()];
+
+            final String budgetInput = this.viewBinding.budgetEditText.getText().toString();
+            final double budget = budgetInput.isEmpty() ? 0.0 : Double.parseDouble(budgetInput);
+
+            String currencyInput =
+                    currencies[this.viewBinding.currencySpinner.getSelectedItemPosition()];
+            Currency currency = Currency.valueOf(currencyInput);
+            //endregion
+
+            viewModel.save(categoryName, color, budget, currency);
+        });
+    }
+
+    private void configureCurrencySpinner(String[] currencies) {
+        ArrayAdapter<CharSequence> currencyAdapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, currencies);
+
+        currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        this.viewBinding.currencySpinner.setAdapter(currencyAdapter);
+    }
+
+    private void configureColorSpinner(@NonNull int[] colors) {
         final String[] colorNames = getResources().getStringArray(R.array.palette_names);
 
         List<Map<String, ?>> data = new ArrayList<>();
@@ -73,36 +105,6 @@ public class CategoryFormFragment extends Fragment {
         });
 
         this.viewBinding.colorSpinner.setAdapter(colorAdapter);
-        //endregion
-
-        final String[] currencies = getResources().getStringArray(R.array.currencies);
-
-        //region Configure currency Spinner.
-        ArrayAdapter<CharSequence> currencyAdapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_spinner_item, currencies);
-
-        currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        this.viewBinding.currencySpinner.setAdapter(currencyAdapter);
-        //endregion
-
-        this.viewBinding.saveButton.setOnClickListener(v -> {
-            //region Parse and validate inputs
-            // TODO Validate inputs and display errors or proceed.
-            String categoryName = this.viewBinding.categoryEditText.getText().toString();
-
-            final int color = colors[this.viewBinding.colorSpinner.getSelectedItemPosition()];
-
-            final String budgetInput = this.viewBinding.budgetEditText.getText().toString();
-            final double budget = budgetInput.isEmpty() ? 0.0 : Double.parseDouble(budgetInput);
-
-            String currencyInput =
-                    currencies[this.viewBinding.currencySpinner.getSelectedItemPosition()];
-            Currency currency = Currency.valueOf(currencyInput);
-            //endregion
-
-            viewModel.save(categoryName, color, budget, currency);
-        });
     }
 
     @Override
