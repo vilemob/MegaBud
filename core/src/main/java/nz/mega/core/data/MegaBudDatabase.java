@@ -6,9 +6,13 @@ import androidx.room.TypeConverters;
 
 import nz.mega.core.data.category.Category;
 import nz.mega.core.data.category.CategoryDao;
+import nz.mega.core.data.transaction.Transaction;
+import nz.mega.core.data.transaction.TransactionDao;
 
-@Database(entities = {Category.class}, version = 1)
+@Database(entities = {Category.class, Transaction.class}, version = 1)
 @TypeConverters(Converters.class)
 public abstract class MegaBudDatabase extends RoomDatabase {
     public abstract CategoryDao categoryDao();
+
+    public abstract TransactionDao transactionDao();
 }

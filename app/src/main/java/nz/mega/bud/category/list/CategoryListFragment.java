@@ -29,7 +29,8 @@ public class CategoryListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.viewBinding = FragmentCategoryListBinding.inflate(getLayoutInflater(), container, false);
+        this.viewBinding = FragmentCategoryListBinding
+                .inflate(getLayoutInflater(), container, false);
         return this.viewBinding.getRoot();
     }
 
@@ -53,8 +54,7 @@ public class CategoryListFragment extends Fragment {
         this.viewModel = new ViewModelProvider(this, viewModelFactory)
                 .get(CategoryListViewModel.class);
 
-        this.viewModel.getLiveCategories().observe(this, categories -> {
-            this.adapter.submitList(categories);
-        });
+        this.viewModel.getLiveCategories()
+                .observe(this, categories -> this.adapter.submitList(categories));
     }
 }

@@ -10,6 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 import nz.mega.core.data.MegaBudDatabase;
 import nz.mega.core.data.category.CategoryDao;
+import nz.mega.core.data.transaction.TransactionDao;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
@@ -37,5 +38,11 @@ public class CoreModule {
     @Provides
     static CategoryDao provideCategoryDao(MegaBudDatabase database) {
         return database.categoryDao();
+    }
+
+    @Singleton
+    @Provides
+    static TransactionDao provideTransactionDao(MegaBudDatabase database) {
+        return database.transactionDao();
     }
 }

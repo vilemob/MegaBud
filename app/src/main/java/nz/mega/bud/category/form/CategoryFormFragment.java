@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +70,15 @@ public class CategoryFormFragment extends Fragment {
             //endregion
 
             viewModel.save(categoryName, color, budget, currency);
+
+            //region Hide keyboard.
+            this.viewBinding.budgetEditText.clearFocus();
+            this.viewBinding.categoryEditText.clearFocus();
+            //endregion
+
+            NavDirections action = CategoryFormFragmentDirections
+                    .actionCategoryFormFragmentToCategoryListFragment();
+            Navigation.findNavController(v).navigate(action);
         });
     }
 

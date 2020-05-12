@@ -12,8 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,7 @@ import dagger.android.support.AndroidSupportInjection;
 import nz.mega.bud.R;
 import nz.mega.bud.databinding.FragmentTransactionFormBinding;
 import nz.mega.core.ViewModelFactory;
+import nz.mega.core.data.Currency;
 import nz.mega.core.data.category.Category;
 
 public class TransactionFormFragment extends Fragment {
@@ -51,7 +55,31 @@ public class TransactionFormFragment extends Fragment {
         configureCategorySpinner();
 
         this.viewBinding.saveButton.setOnClickListener(v -> {
-            // TODO Validate form and save transaction.
+            // TODO Parse date from input.
+            final Date dateTime = new Date();
+
+            final String valueInput = this.viewBinding.valueEditText.getText().toString();
+            final double value = Double.parseDouble(valueInput);
+
+            final String[] currencies = getResources().getStringArray(R.array.currencies);
+            final String currencyInput =
+                    currencies[this.viewBinding.currencySpinner.getSelectedItemPosition()];
+            final Currency currency = Currency.valueOf(currencyInput);
+
+            final Map<String, Category> categoryInput =
+                    (Map<String, Category>) this.viewBinding.categorySpinner.getSelectedItem();
+            final Category category = categoryInput.get(KEY_CATEGORY);
+
+            this.viewModel.save(dateTime, value, currency, category);
+
+            //region Hide keyboard.
+            this.viewBinding.valueEditText.clearFocus();
+            this.viewBinding.dateTimeEditText.clearFocus();
+            //endregion
+
+            NavDirections action = TransactionFormFragmentDirections
+                    .actionTransactionFormFragmentToTransactionListFragment();
+            Navigation.findNavController(view).navigate(action);
         });
     }
 

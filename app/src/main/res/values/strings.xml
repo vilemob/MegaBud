@@ -14,6 +14,8 @@
     <string name="value">Value</string>
     <string name="datetime">Datetime</string>
     <string name="budget">Budget</string>
+    <string name="transaction_date">Date: %s\n</string>
+    <string name="transaction_value">Value: %.2f %s\n</string>
 
     <string-array name="palette_names">
         <item>Bright pink</item>
