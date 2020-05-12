@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import nz.mega.bud.R;
 import nz.mega.bud.databinding.ItemTransactionBinding;
+import nz.mega.core.data.Currency;
 import nz.mega.core.data.transaction.Transaction;
 
 class TransactionViewHolder extends RecyclerView.ViewHolder {
@@ -19,13 +20,17 @@ class TransactionViewHolder extends RecyclerView.ViewHolder {
         this.viewBinding = ItemTransactionBinding.bind(itemView);
     }
 
-    void bind(Transaction transaction) {
+    void bind(@NonNull Transaction transaction) {
         Resources resources = this.viewBinding.getRoot().getResources();
         this.viewBinding.transactionTextView
                 .setText(resources.getString(R.string.transaction_date, transaction.getDateTime()));
+
         this.viewBinding.transactionTextView
-                .append(resources.getString(R.string.transaction_value, transaction.getValue(),
-                        transaction.getCurrency()));
+                .append(resources.getString(R.string.transaction_value, transaction.getUSDValue(),
+                        Currency.USD));
+        this.viewBinding.transactionTextView
+                .append(resources.getString(R.string.transaction_value, transaction.getNZDValue(),
+                        Currency.NZD));
 
         // TODO Bind category and colour.
     }

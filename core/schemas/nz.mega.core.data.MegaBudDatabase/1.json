@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fed4e5c703d0b448fa785f392e5e4fab",
+    "identityHash": "dc4b6bbb09232cb62352fbffeca9537e",
     "entities": [
       {
         "tableName": "Category",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Transaction",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `datetime` INTEGER, `value` REAL NOT NULL, `currency` TEXT, `category` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `datetime` INTEGER, `value` REAL NOT NULL, `currency` TEXT, `exchange` REAL NOT NULL DEFAULT 1.0, `category` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -77,6 +77,13 @@
             "notNull": false
           },
           {
+            "fieldPath": "exchange",
+            "columnName": "exchange",
+            "affinity": "REAL",
+            "notNull": true,
+            "defaultValue": "1.0"
+          },
+          {
             "fieldPath": "categoryId",
             "columnName": "category",
             "affinity": "INTEGER",
@@ -96,7 +103,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fed4e5c703d0b448fa785f392e5e4fab')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'dc4b6bbb09232cb62352fbffeca9537e')"
     ]
   }
 }

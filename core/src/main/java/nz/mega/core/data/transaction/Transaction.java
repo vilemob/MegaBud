@@ -23,6 +23,9 @@ public class Transaction {
     @ColumnInfo(name = "currency")
     private Currency currency;
 
+    @ColumnInfo(name = "exchange", defaultValue = "1.0")
+    private double exchange;
+
     @ColumnInfo(name = "category")
     private int categoryId;
 
@@ -58,11 +61,35 @@ public class Transaction {
         this.currency = currency;
     }
 
+    public double getExchange() {
+        return exchange;
+    }
+
+    public void setExchange(double exchange) {
+        this.exchange = exchange;
+    }
+
     public int getCategoryId() {
         return categoryId;
     }
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public double getUSDValue() {
+        if (currency.equals(Currency.USD)) {
+            return this.value;
+        } else {
+            return this.value / this.exchange;
+        }
+    }
+
+    public double getNZDValue() {
+        if (currency.equals(Currency.NZD)) {
+            return this.value;
+        } else {
+            return this.value * this.exchange;
+        }
     }
 }

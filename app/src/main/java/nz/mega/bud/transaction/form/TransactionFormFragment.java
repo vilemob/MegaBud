@@ -59,7 +59,7 @@ public class TransactionFormFragment extends Fragment {
             final Date dateTime = new Date();
 
             final String valueInput = this.viewBinding.valueEditText.getText().toString();
-            final double value = Double.parseDouble(valueInput);
+            final double value = valueInput.isEmpty() ? 0.0 : Double.parseDouble(valueInput);
 
             final String[] currencies = getResources().getStringArray(R.array.currencies);
             final String currencyInput =
@@ -71,15 +71,6 @@ public class TransactionFormFragment extends Fragment {
             final Category category = categoryInput.get(KEY_CATEGORY);
 
             this.viewModel.save(dateTime, value, currency, category);
-
-            //region Hide keyboard.
-            this.viewBinding.valueEditText.clearFocus();
-            this.viewBinding.dateTimeEditText.clearFocus();
-            //endregion
-
-            NavDirections action = TransactionFormFragmentDirections
-                    .actionTransactionFormFragmentToTransactionListFragment();
-            Navigation.findNavController(view).navigate(action);
         });
     }
 
@@ -130,6 +121,19 @@ public class TransactionFormFragment extends Fragment {
             }
 
             this.categoriesAdapter.notifyDataSetChanged();
+        });
+
+        this.viewModel.liveState.observe(this, transactionFormState -> {
+            if (transactionFormState.equals(TransactionFormState.DONE)) {
+                //region Hide keyboard.
+                this.viewBinding.valueEditText.clearFocus();
+                this.viewBinding.dateTimeEditText.clearFocus();
+                //endregion
+
+                NavDirections action = TransactionFormFragmentDirections
+                        .actionTransactionFormFragmentToTransactionListFragment();
+                Navigation.findNavController(this.viewBinding.getRoot()).navigate(action);
+            }
         });
     }
 }
