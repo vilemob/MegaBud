@@ -1,13 +1,23 @@
 package nz.mega.core;
 
+import android.content.Context;
+
+import androidx.room.Room;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
+import nz.mega.core.data.MegaBudDatabase;
+import nz.mega.core.data.category.CategoryDao;
+import nz.mega.core.data.transaction.TransactionDao;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 @Module
 public class CoreModule {
 
+    @Singleton
     @Provides
     static CurrencyLayerService provideCurrencyLayerService() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -16,5 +26,23 @@ public class CoreModule {
                 .build();
 
         return retrofit.create(CurrencyLayerService.class);
+    }
+
+    @Singleton
+    @Provides
+    static MegaBudDatabase provideMegaBudDatabase(Context context) {
+        return Room.databaseBuilder(context, MegaBudDatabase.class, "mega-bud-db").build();
+    }
+
+    @Singleton
+    @Provides
+    static CategoryDao provideCategoryDao(MegaBudDatabase database) {
+        return database.categoryDao();
+    }
+
+    @Singleton
+    @Provides
+    static TransactionDao provideTransactionDao(MegaBudDatabase database) {
+        return database.transactionDao();
     }
 }
